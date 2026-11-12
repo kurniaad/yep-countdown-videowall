@@ -1,237 +1,567 @@
-```html
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>YEP!! Countdown</title>
+<title>YEP!! Bali Countdown</title>
 
 <style type="text/css">
+/* 1. DEKLARASI FONT FACE LOKAL (Paling Aman untuk Browser TV) */
+@font-face {
+	font-family: 'CountdownFont';
+	/* Arahkan ke folder tempat Anda menyimpan file font */
+	src: url('anton.woff') format('woff');
+	font-weight: 700;
+	font-style: normal;
+	/* font-display swap memaksa TV menampilkan teks secara instan */
+	font-display: swap; 
+}
+	
+/* BASIC RESET */
 
-html, body {
+* {
     margin: 0;
     padding: 0;
+}
+
+html, body {
     width: 100%;
     height: 100%;
     overflow: hidden;
+    background-color: #102d2b;
+    font-family: Arial, sans-serif;
+    color: #ffffff;
 }
 
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    color: #fffdf8;
-    background-color: #062f32;
-    background-position: center center;
-    background-size: cover;
-    background-repeat: no-repeat;
-}
+/* BACKGROUND VIDEO */
 
-.scene {
+.background {
+    position: absolute;
+    left: 0;
+    top: 0;
     width: 100%;
     height: 100%;
-    display: table;
+    z-index: 0;
+    overflow: hidden;
+    background-color: #102d2b;
+    background-image: url("bali-background.jpg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.background video {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* IMAGE BACKGROUND */
+
+.background img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* DARK OVERLAY */
+
+.overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    opacity: 0.2;
+}
+
+/* MAIN CONTAINER */
+
+.container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* SUBTITLE */
+
+.subtitle {
+    position: absolute;
+    top: 13%;
+    left: 10%;
+    font-size: 26px;
+    font-style: italic;
+    font-weight: normal;
+    color: #ffffff;
+	text-shadow: 2px 2px 10px #666666;
+}
+
+/* DAYS AREA */
+
+.days-area {
+    position: absolute;
+    top: 13%;
+    left: 2.5%;
+    width: 46%;
+    height: 78%;
+}
+
+.days-number {
+    font-family: 'CountdownFont', "Arial Black", "sans-serif-condensed", sans-serif;
+    font-size: 690px;
+    line-height: 1;
+    font-weight: bold;
+    letter-spacing: 5px;
+    color: #ffffff;
+    white-space: nowrap;
+	text-shadow: 5px 5px 10px black;
+}
+
+.days-label {
+    position: absolute;
+    left: 105%;
+    bottom: 2.5%;
+    font-family: 'CountdownFont', Impact, "Aptos", sans-serif;
+    font-size: 100px;
+    line-height: 1.05;
+    color: #ffffff;
+    white-space: nowrap;
+	text-shadow: 5px 5px 10px black;
+}
+
+/* EVENT TITLE */
+
+.event-title {
+    position: absolute;
+    top: 26.5%;
+    right: 3.5%;
+    width: 48%;
     text-align: center;
 }
 
-.content {
-    display: table-cell;
-    vertical-align: middle;
-    text-align: center;
-    padding: 20px;
-}
-
-.eyebrow {
-    font-size: 24px;
-    letter-spacing: 5px;
-    font-weight: bold;
-    color: #bde9d9;
-    margin-bottom: 20px;
-}
-
-.tagline {
-    font-size: 48px;
-    letter-spacing: 5px;
-    font-weight: bold;
-    margin: 15px 0;
-}
-
-.sub {
-    font-size: 20px;
-    margin-top: 10px;
-}
-
-.countdown {
-    margin-top: 45px;
-}
-
-.unit {
-    display: inline-block;
-    padding: 30px 70px;
-    border: 1px solid rgba(255,255,255,0.35);
-    border-radius: 16px;
-    background-color: rgba(2,31,33,0.75);
-}
-
-.number {
-    font-size: 150px;
-    font-weight: bold;
+.event-name {
+    font-family: 'CountdownFont', Arial, sans-serif;
+    font-size: 40px;
     line-height: 1.1;
+    margin-bottom: 10px;
+    color: #ffffff;
+	text-shadow: 5px 5px 10px black;
 }
 
-.label {
-    margin-top: 15px;
-    font-size: 24px;
-    letter-spacing: 6px;
-    color: #bde9d9;
-    font-weight: bold;
+.event-headline {
+    font-family: 'CountdownFont', Impact, "Anton", sans-serif;
+    font-size: 90px;
+    line-height: 1;
+    color: #ffffff;
+    text-transform: uppercase;
+	text-shadow: 5px 5px 10px black;
 }
 
-.date-note {
-    display: none;
-    margin-top: 35px;
-    font-size: 30px;
-    color: #e5c783;
+/* COUNTDOWN TIMER */
+
+.timer {
+    position: absolute;
+    right: 0;
+    bottom: 21%;
+    width: 32%;
+    height: 120px;
+    text-align: center;
+}
+
+.timer-item {
+    float: left;
+    width: 33%;
+    text-align: left;
+}
+
+.timer-value {
+    font-family: 'CountdownFont', Impact, "Anton", sans-serif;
+    font-size: 80px;
+    line-height: 1;
     font-weight: bold;
     letter-spacing: 3px;
+    color: #ffffff;
+	text-shadow: 5px 5px 10px black;
 }
 
-.finished .countdown {
-    display: none;
+.timer-label {
+    margin-top: 12px;
+    font-family: 'CountdownFont', Impact, "Anton", sans-serif;
+    font-size: 40px;
+    line-height: 1.2;
+    color: #ffffff;
+	text-shadow: 5px 5px 10px black;
 }
 
-.finished .date-note {
-    display: block;
-}
-
-@media screen and (max-width: 700px) {
-    .eyebrow {
-        font-size: 14px;
-        letter-spacing: 2px;
-    }
-
-    .tagline {
-        font-size: 25px;
-        letter-spacing: 2px;
-    }
-
-    .sub {
-        font-size: 13px;
-    }
-
-    .unit {
-        padding: 20px 35px;
-    }
-
-    .number {
-        font-size: 80px;
-    }
-
-    .label {
-        font-size: 16px;
-        letter-spacing: 4px;
-    }
-}
+/* END */
 
 </style>
 </head>
 
 <body>
 
-<div class="scene" id="scene">
+<!-- BACKGROUND -->
 
-    <div class="content">
+<div class="background" id="background">
 
-        <div class="eyebrow">
-            MBI &amp; HTSA &middot; YEAR END CELEBRATION 2026
+    <!-- VIDEO BACKGROUND MODE (COMMENTED / INACTIVE)
+
+    <video id="backgroundVideo" autoplay muted loop>
+        <source src="bali-background-2.mov" src="" type="video/mp4">
+    </video>
+	
+	-->
+
+    <!-- IMAGE BACKGROUND MODE (ACTIVE) -->
+
+    <img id="backgroundImage"
+         src="YEP-countdown-daylight.png"
+         width="100%"
+         height="100%">
+
+    <!-- DARK OVERLAY -->
+
+    <div class="overlay"></div>
+
+</div>
+
+<!-- MAIN CONTENT -->
+
+<div class="container">
+
+    <!-- SUBTITLE -->
+
+    <div class="subtitle">
+        the countdown to Bali has officially begun
+    </div>
+
+
+    <!-- DAYS -->
+
+    <div class="days-area">
+
+        <div class="days-number" id="days">
+            42
         </div>
 
-        <div class="tagline">
-            ANDA LAYAK DAPAT BINTANG
+        <div class="days-label">
+            DAYS
+            <br>TO GO
         </div>
 
-        <div class="sub">
-            The countdown to Bali has officially begun
+    </div>
+
+
+    <!-- EVENT TITLE -->
+
+    <div class="event-title">
+
+        <div class="event-name">
+            MBI &amp; HTSA Year End Party 2026
         </div>
 
-        <div class="countdown" id="countdown">
-            <div class="unit">
-                <div class="number" id="days">--</div>
-                <div class="label">DAYS</div>
-            </div>
+        <div class="event-headline">
+            ANDA LAYAK<br>
+            DAPAT BINTANG
         </div>
 
-        <div class="date-note">
-            IT'S TIME FOR YEP!!
+    </div>
+
+
+    <!-- COUNTDOWN -->
+
+    <div class="timer">
+
+        <div class="timer-item">
+            <div class="timer-value" id="hours">00</div>
+            <div class="timer-label">hours</div>
+        </div>
+
+        <div class="timer-item">
+            <div class="timer-value" id="minutes">00</div>
+            <div class="timer-label">minutes</div>
+        </div>
+
+        <div class="timer-item">
+            <div class="timer-value" id="seconds">00</div>
+            <div class="timer-label">seconds</div>
         </div>
 
     </div>
 
 </div>
 
-<script type="text/javascript">
 
-/* EVENT DATE: 16 December 2026, 18:00 WITA */
+<!-- COUNTDOWN SCRIPT -->
 
-var EVENT_DATE = "2026-12-16T18:00:00+08:00";
-var target = new Date(EVENT_DATE).getTime();
+<script>
+
+/* =====================================
+   COUNTDOWN CONFIGURATION
+   Change the target date and time here.
+   Month uses 0-11 (11 = December).
+   ===================================== */
+
+var targetDate = new Date(2026, 11, 16, 18, 0, 0);
 
 function updateCountdown() {
 
-    var now = new Date().getTime();
-    var diff = target - now;
+    var now = new Date();
+    var difference = targetDate.getTime() - now.getTime();
 
-    var daysElement = document.getElementById("days");
-    var sceneElement = document.getElementById("scene");
-
-    if (isNaN(target)) {
-        daysElement.innerHTML = "ERR";
+    if (difference <= 0) {
+        document.getElementById("days").innerHTML = "00";
+        document.getElementById("hours").innerHTML = "00";
+        document.getElementById("minutes").innerHTML = "00";
+        document.getElementById("seconds").innerHTML = "00";
         return;
     }
 
-    if (diff <= 0) {
-        daysElement.innerHTML = "00";
-        sceneElement.className = "scene finished";
-        return;
+    var totalSeconds = Math.floor(difference / 1000);
+
+    var days = Math.floor(totalSeconds / 86400);
+
+    var hours = Math.floor(
+        (totalSeconds % 86400) / 3600
+    );
+
+    var minutes = Math.floor(
+        (totalSeconds % 3600) / 60
+    );
+
+    var seconds = totalSeconds % 60;
+
+    function formatNumber(number) {
+        return number < 10 ? "0" + number : number;
     }
 
-    var days = Math.floor(diff / 86400000);
+    document.getElementById("days").innerHTML =
+        formatNumber(days);
 
-    daysElement.innerHTML = days;
+    document.getElementById("hours").innerHTML =
+        formatNumber(hours);
+
+    document.getElementById("minutes").innerHTML =
+        formatNumber(minutes);
+
+    document.getElementById("seconds").innerHTML =
+        formatNumber(seconds);
 }
 
-updateCountdown();
-setInterval(updateCountdown, 1000);
+/* ==========================================
+   YEP!! TIME-BASED BACKGROUND SWITCHER
+   ========================================== */
+
+/*
+   DAY     : 06:00 - 14:59
+   SUNSET  : 15:00 - 18:59
+   NIGHT   : 19:00 - 05:59
+
+   VIDEO MODE:
+   Uses 3 different MP4 files.
+
+   IMAGE MODE:
+   Uses 3 different JPG files.
+*/
 
 
-/* AUTOMATIC BACKGROUND */
+/* ==========================================
+   BACKGROUND MODE
+   ========================================== */
+
+/* Choose ONE mode only */
+
+// var backgroundMode = "video";
+
+ var backgroundMode = "image";
+
+
+/* ==========================================
+   VIDEO FILES
+   ========================================== */
+
+var videoDay = "bali-background-daylight.mp4";
+var videoSunset = "bali-background-sunset.mp4";
+var videoNight = "bali-background-sunset.mp4";
+
+
+/* ==========================================
+   IMAGE FILES
+   ========================================== */
+
+var imageDay = "YEP-countdown-daylight.png";
+var imageSunset = "YEP-countdown-sunset.png";
+var imageNight = "YEP-countdown-night.png";
+
+
+/* ==========================================
+   TIME CHECK
+   ========================================== */
 
 function updateBackground() {
 
-    var hour = new Date().getHours();
-    var image;
+    var now = new Date();
 
-    if (hour >= 6 && hour < 15) {
-        image = "YEP-countdown-daylight.png";
-    } else if (hour >= 15 && hour < 18) {
-        image = "YEP-countdown-sunset.png";
-    } else {
-        image = "YEP-countdown-night.png";
+    var currentHour = now.getHours();
+
+    var selectedBackground = "";
+
+    var currentMode = "";
+
+
+    /* DAY: 06:00 - 14:59 */
+
+    if (currentHour >= 6 && currentHour < 15) {
+
+        currentMode = "day";
+
     }
 
-    document.body.style.backgroundImage =
-        "linear-gradient(rgba(4,35,38,0.35), rgba(4,35,38,0.55)), url('" +
-        image + "')";
+    /* SUNSET: 15:00 - 18:59 */
 
-    document.body.style.backgroundSize = "cover";
-    document.body.style.backgroundPosition = "center center";
-    document.body.style.backgroundRepeat = "no-repeat";
+    else if (currentHour >= 15 && currentHour < 19) {
+
+        currentMode = "sunset";
+
+    }
+
+    /* NIGHT: 19:00 - 05:59 */
+
+    else {
+
+        currentMode = "night";
+
+    }
+
+
+    /* ======================================
+       SELECT VIDEO OR IMAGE
+       ====================================== */
+
+    if (backgroundMode == "video") {
+
+        if (currentMode == "day") {
+
+            selectedBackground = videoDay;
+
+        }
+
+        else if (currentMode == "sunset") {
+
+            selectedBackground = videoSunset;
+
+        }
+
+        else {
+
+            selectedBackground = videoNight;
+
+        }
+
+        changeVideo(selectedBackground);
+
+    }
+
+
+    else if (backgroundMode == "image") {
+
+        if (currentMode == "day") {
+
+            selectedBackground = imageDay;
+
+        }
+
+        else if (currentMode == "sunset") {
+
+            selectedBackground = imageSunset;
+
+        }
+
+        else {
+
+            selectedBackground = imageNight;
+
+        }
+
+        changeImage(selectedBackground);
+
+    }
+
 }
 
+
+/* ==========================================
+   CHANGE VIDEO
+   ========================================== */
+
+function changeVideo(fileName) {
+
+    var video = document.getElementById("backgroundVideo");
+
+    var source = document.getElementById("videoSource");
+
+    if (!video || !source) {
+        return;
+    }
+
+    if (source.getAttribute("src") != fileName) {
+
+        source.setAttribute("src", fileName);
+
+        video.load();
+
+        video.play();
+
+    }
+
+}
+
+
+/* ==========================================
+   CHANGE IMAGE
+   ========================================== */
+
+function changeImage(fileName) {
+
+    var image = document.getElementById("backgroundImage");
+
+    if (!image) {
+        return;
+    }
+
+    if (image.getAttribute("src") != fileName) {
+
+        image.setAttribute("src", fileName);
+
+    }
+
+}
+
+
+/* ==========================================
+   INITIALIZE
+   ========================================== */
+
+updateCountdown();
 updateBackground();
+
+
+/* CHECK EVERY 60 SECONDS */
+
+setInterval(updateCountdown, 1000);
 setInterval(updateBackground, 60000);
+
 
 </script>
 
 </body>
 </html>
-```
